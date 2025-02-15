@@ -37,17 +37,15 @@ class Get_selled_proudcts_count_and_all_products_count_and_benefit_for_one_selle
     serializer_class = ProductsSerializer
     def get_queryset(self):
         seller_id = self.kwargs['seller_id']
-        seller=Seller.objects.get(id=seller_id)
+        seller = Seller.objects.filter(id=seller_id)
         products = Products.objects.filter(seller=seller)
-        sell_count = Products.objects.filter(seller=seller,moderatsiya='tasdqilangan').count()
-        all_count = products.count()
-        benefit=sell_count*products.price
-        
-        data = {
-            'sell_count': sell_count,
-            'all_count': all_count,
-            'benefit': benefit,
-            'products': ProductsSerializer(products, many=True).data
-        }
-        
-        return Response(data)
+        result = []
+        sell_count = 0
+        all_count = 0
+        benefit = 0
+        for product in products:
+            sell_count += product.betlar_soni
+            all_count += product.betlar_soni
+            benefit += product.price * product.betlar_soni
+            result.append(product)
+        return Response(result)
