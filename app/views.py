@@ -44,8 +44,9 @@ class Get_selled_proudcts_count_and_all_products_count_and_benefit_for_one_selle
         all_count = 0
         benefit = 0
         for product in products:
-            sell_count += product.betlar_soni
-            all_count += product.betlar_soni
-            benefit += product.price * product.betlar_soni
-            result.append(product)
-        return Response(result)
+          
+            if product.moderatsiya == 'jarayonda':
+                all_count += 1
+                sell_count += 1
+                benefit += product.price
+        return Response({'sell_count':sell_count,'all_count':all_count,'benefit':benefit})
