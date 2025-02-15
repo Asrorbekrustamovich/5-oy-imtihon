@@ -39,7 +39,7 @@ class Get_selled_proudcts_count_and_all_products_count_and_benefit_for_one_selle
         seller_id = self.kwargs['seller_id']
         seller=Seller.objects.get(id=seller_id)
         products = Products.objects.filter(seller=seller)
-        sell_count = Products.filter(seller=seller,moderatsiya='tasdqilangan').count()
+        sell_count = Products.objects.filter(seller=seller,moderatsiya='tasdqilangan').count()
         all_count = products.count()
         benefit = sum(product.price * product.betlar_soni for product in products)
         
